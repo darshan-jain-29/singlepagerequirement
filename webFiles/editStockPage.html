@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Animation library for notifications   -->
+    <link href="../assets/css/animate.min.css" rel="stylesheet" />
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="../assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet" />
+    <!--     Fonts and icons     -->
+    <link href="../assets/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="../assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    <link href="../assets/css/custom.css" rel="stylesheet" />
+    <title>Edit Stock</title>
+    <style>
+        #searchBox {
+            background-image: url('../assets/icons/win/searchicon.png');
+            background-position: 4px 4px;
+            background-repeat: no-repeat;
+            width: 88%;
+            font-size: 16px;
+            padding: 4px 20px 6px 47px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-color="purple" data-image="../assets/img/sidebar-2.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a style="pointer-events: none; cursor: default;" class="simple-text">
+                        Kalash - IT Services
+                    </a>
+                </div>
+
+                <ul class="nav">
+                    <!-- <li>
+                        <input type="button" name="Reload" value="Reload" class="btn btn-info" onclick="window.location.reload()">
+                    </li> -->
+                    <li>
+                        <a href="../webFiles/homePage.html">
+                            <i class="pe-7s-graph"></i>
+                            <p>Home Page</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../webFiles/openingStockEntry.html">
+                            <i class="pe-7s-credit"></i>
+                            <p>Product Entry</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../webFiles/stockOrderManagementPage.html">
+                            <i class="pe-7s-note2"></i>
+                            <p>Stock/Order</p>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#">
+                            <i class="pe-7s-note"></i>
+                            <p>Edit Stock</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="../webFiles/logsPage.html">
+                            <i class="pe-7s-display1"></i>
+                            <p>All Logs</p>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="pe-7s-door-lock"></i>
+                            <p>
+                                Help
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../webFiles/createUser.html" style="color: black">Manage users</a></li>
+                            <li><a href="../webFiles/contactDeveloper.html" style="color: black">Contact Developer</a></li>
+                        </ul>
+                    </li>
+                    <li class="active-pro">
+                        <a href="notifications.html">
+                            <i class="pe-7s-junk"></i>
+                            <p>Close App</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand">Edit Stock</a>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right" id="searchBoxUl" hidden>
+                        <li style="padding-top: 10px; padding-right: 15px;">
+                            <input type="text" class="form-control" placeholder="Search Products" id="searchBox"
+                                onkeyup="searchInTable()">
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <form id="superUserDetailsForm">
+                <h4 style="padding-left: 18px;">Enter super user credentials to proceed ahead.</h4>
+                <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                    <div class="col-md-4">
+                        <label style="padding-left: 15px;">Superuser ID</label>
+                        <input type="text" class="form-control" placeholder="Superuser Username" id="username"
+                            autofocus>
+                    </div>
+                    <div class="col-md-4">
+                        <label style="padding-left: 15px;">Superuser Password</label>
+                        <input type="text" class="form-control" placeholder="Superuser Password:" id="password">
+                    </div>
+                    <div class="col-md-4" style="padding-top: 24px;">
+                        <input type="button" class="btn btn-success btn-fill" id="shade" value="Submit" onclick="checkCredentialsOfSuperUser()">
+                        <input type="button" class="btn btn-info btn-fill" value="Reset" onclick="resetErrorMessage()">
+                    </div>
+
+                </div>
+                <div style="text-align: center;" hidden id="errorMessage">
+                    <label style="color: red; font-size: 1.4em">Incorrect credentials. Please try again.</label>
+                </div>
+            </form>
+            <div class="content table-responsive" id="stockDataDiv" hidden>
+                <table class="table table-hover table-striped" id="stockTable">
+                    <thead>
+                        <tr>
+                            <th class="editStockTable">Design Name</th>
+                            <th class="editStockTable">Design No</th>
+                            <th class="editStockTable">Shade No</th>
+                            <th class="editStockTable">In Production</th>
+                            <th class="editStockTable">In Dyeing</th>
+                            <th class="editStockTable">Finish Quantity</th>
+                            <th class="editStockTable">Balance Stock</th>
+                            <th class="editStockTable">Orders</th>
+                            <th class="editStockTable"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="stockTableBody">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th class="editStockTable">Design Name</th>
+                            <th class="editStockTable">Design No</th>
+                            <th class="editStockTable">Shade No</th>
+                            <th class="editStockTable">In Production</th>
+                            <th class="editStockTable">In Dyeing</th>
+                            <th class="editStockTable">Finish Quantity</th>
+                            <th class="editStockTable">Balance Stock</th>
+                            <th class="editStockTable">Orders</th>
+                            <th class="editStockTable"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../javaScriptFiles/editStockPage.js"></script>
+<script src="../javaScriptFiles/databaseConnectivity.js"></script>
+<!--   Core JS Files   -->
+<script src="../assets/js/jquery.3.2.1.min.js" onload="window.$=window.jQuery=module.exports;"></script>
+<script src="../assets/js/bootstrap.min.js" type="text/javascript"></script>
+<!--  Notifications Plugin    -->
+<script src="../assets/js/bootstrap-notify.js"></script>
+
+</html>
